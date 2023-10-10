@@ -5,7 +5,7 @@ const timestamps = false;
 module.exports = (dataBase) =>{
   dataBase.define('Temperament',{
     id:{
-      type: DataTypes.SMALLINT,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },

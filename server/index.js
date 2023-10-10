@@ -1,11 +1,14 @@
+require('dotenv').config();
+const {PORTBACK} = process.env;
 const express = require('express');
 const server = express();
-const PORTBACK = 3001;
 const router = require('./routes');
-const {dataBase} = require('./dataBase');
-
+const {dataBase,Temperament,Dog,DogTemperament} = require('./dataBase');
+const initialTemperaments = require('./utils/getTemperaments') //initial temperaments
+const {dogss,relations} = require('./utils/dogs'); //initial values
 const morgan = require('morgan');
-const save = true;
+const {getAllDogsApi} = require('./utils/allDogsApi')
+const save = false ;
 
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -24,11 +27,22 @@ server.use((req, res, next) => {
 server.use(express.json());
 server.use('/pi_dogs',router);
 
-
 dataBase.sync({force:save})
-  // .then(()=>{
-  //     if(save) saveInfoDB(typeUsers,User);
-  //   })
+  .then(()=>{
+    return getAllDogsApi();
+    })
+  .then(({data})=>{
+    return initialTemperaments(data)
+  })
+  .then((res)=>{
+    if(save) Temperament.bulkCreate(res);
+  })
+  .then(()=>{
+    if(save){
+      Dog.bulkCreate(dogss)
+      DogTemperament.bulkCreate(relations)
+    }
+  })
   .then(()=>{
     server.listen(PORTBACK,()=>{
       console.log('Server raised in port: '+PORTBACK)
@@ -37,4 +51,3 @@ dataBase.sync({force:save})
   .catch((err)=>console.log(err.message));
 
 module.exports = server;
-
