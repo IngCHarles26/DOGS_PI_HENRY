@@ -1,5 +1,5 @@
-module.exports = async (data)=>{
-  let ans = [];
+module.exports = (data)=>{
+  let ans = ['undefined','Mellow', 'Enterprising', 'Serious', 'Gregarious', 'Nonaggressive', 'Optimistic', 'Robust', 'Engaging', 'Intense', 'Dependable', 'Discerning', 'Noble', 'Perceptive', 'Instinctual', 'Quarrelsome', 'Impetuous', 'HuntingInstinct', 'Dedicated', 'Versatile'];
   try{
     for(let i of data){
       let {temperament} = i;

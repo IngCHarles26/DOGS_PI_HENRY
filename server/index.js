@@ -31,16 +31,14 @@ dataBase.sync({force:save})
   .then(()=>{
     return getAllDogsApi();
     })
-  .then(({data})=>{
+  .then((data)=>{
     return initialTemperaments(data)
   })
   .then((res)=>{
-    if(save) Temperament.bulkCreate(res);
-  })
-  .then(()=>{
     if(save){
-      Dog.bulkCreate(dogss)
-      DogTemperament.bulkCreate(relations)
+      Temperament.bulkCreate(res);
+      Dog.bulkCreate(dogss);
+      DogTemperament.bulkCreate(relations);
     }
   })
   .then(()=>{

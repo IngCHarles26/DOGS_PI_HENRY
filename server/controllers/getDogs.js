@@ -3,16 +3,17 @@ const {transformDataApi,transformDataDB} = require('../utils/transforData')
 const {getAllDogsApi} = require('../utils/allDogsApi')
 
 const getDogs = async (req,res)=>{
+  const {idDog} = req.params;
+  const {name} = req.query;
   try{
     const temperaments = (await Temperament.findAll()).reduce((ac,el)=>{
         return {...ac,[el.name]:el.id}
       },{undefined:'noHave'});
 
     const dogsDB = (await Dog.findAll({include:Temperament})).map(el=>transformDataDB(el))
-
     const dogsApi = (await getAllDogsApi()).map(el=>transformDataApi(el,temperaments));
 
-    res.status(200).json([...dogsDB,...dogsApi]);
+   res.status(200).json([...dogsDB,...dogsApi]); 
 
   }catch(err){
     res.status(500).json({message:err.message})

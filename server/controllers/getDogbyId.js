@@ -1,35 +1,39 @@
+// require('dotenv').config();
+// const {KEY} = process.env;
+// const axios = require('axios');
+// const URL = 'https://api.thedogapi.com/v1/breeds/';
+// const {transformDataApi,transformDataDB} = require('../utils/transforData');
+
 require('dotenv').config();
-const {KEY} = process.env;
 const axios = require('axios');
-const URL = 'https://api.thedogapi.com/v1/breeds/';
-const {Dog,Temperament} = require('../dataBase');
-const {transformDataApi,transformDataDB} = require('../utils/transforData');
+const {PORTBACK} = process.env;
+const URL = 'http://localhost:'+PORTBACK+'/pi_dogs/dogs';
 
 const getDogById = async (req,res)=>{
   const {idDog} = req.params;
-  let dog = {};
   try{
-    const temperaments = (await Temperament.findAll()).reduce((ac,el)=>{
-      return {...ac,[el.name]:el.id}
-    },{undefined:'noHave'});
+    const {data} = await axios.get(URL);
 
-    const {data} = await axios.get(URL+idDog+'?api_key='+KEY);
-    if(Object.keys(data).length) dog = transformDataApi(data,temperaments);
-    else{
-      const dataDB = await Dog.findByPk(idDog,{include:Temperament});
-      if(dataDB) dog = transformDataDB(dataDB);
-      else dog = 'No existe informacion con ese ID';
-    }
-    res.status(200).json(dog)
-  }catch(err){
-    res.status(500).json({message:err.message})
-  }
+    const idInfo = data.find(el=> +el.id === +idDog);
+
+    res.status(200).json(idInfo || 'notFound')
+
+  }catch(err){res.status(500).json({message:err.message})}
 }
 
 
 module.exports = getDogById;
 
+// const {data} = await axios.get(URL+idDog+'?api_key='+KEY);
 
+// if(Object.keys(data).length) dog = transformDataApi(data,temperaments);
+
+// else{
+//   const dataDB = await Dog.findByPk(idDog,{include:Temperament});
+
+//   if(dataDB) dog = transformDataDB(dataDB);
+//   else dog = 'No existe informacion con ese ID';
+// }
     // if(!Object.keys(data).length){
     //   data = await Dog.findByPk(idDog);
     //   let {id,name,height,weight,image,yearsLife} = data;

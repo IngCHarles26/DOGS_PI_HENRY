@@ -9,7 +9,7 @@ const getAllDogsApi = async () =>{
   try{
     const {data} = await axios.get(URL+KEY)
     allData = [...data];
-    return {data}
+    return data
   }catch(err){
     console.log({message:err.message})
   }

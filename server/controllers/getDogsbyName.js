@@ -9,10 +9,11 @@ const getDogsbyName = async (req,res)=>{
   let {name} = req.query;
   try{
     let {data} = await axios.get(URL);
-    let ans = data.filter(el=>{
-      return el.name.toLowerCase().includes(name.toLowerCase())
-    })
-    res.status(200).json(ans)
+
+    let ans = data.filter(el=> el.name.toLowerCase().includes(name.toLowerCase()));
+
+    res.status(200).json(ans);
+
   }catch(err){
     res.status(500).json({message:err.message})
   }

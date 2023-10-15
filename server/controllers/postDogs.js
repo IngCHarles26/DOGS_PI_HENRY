@@ -8,9 +8,13 @@ const postDogs = async (req,res)=>{
     const allDogs = await Dog.findAll();
     const id = generateID()+allDogs.length+1
     const relations = temperament.map(el=>{return {DogId: id, TemperamentId:el}})
+
     await Dog.create({name,image,height,weight,yearsLife,origin,id})
+
     await DogTemperament.bulkCreate(relations)
-    res.status(200).json({message:'Usuario creado exitosamente'})
+
+    res.status(200).json({message:'Dog creado exitosamente'})
+
   }catch(err){
     res.status(500).json({message:err.message})
   }
