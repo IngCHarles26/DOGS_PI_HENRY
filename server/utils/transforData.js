@@ -12,7 +12,7 @@ const transformDataApi = (data,temperaments) =>{
       const origin = 'API';
       const temperament = data.temperament
         ? data.temperament.replaceAll(' ','').split(',').map(el=>temperaments[el]) 
-        : temperaments[data.temperament];
+        : [temperaments[data.temperament]];
     return {id,image,name,height,weight,yearsLife,origin,temperament};
   }
 }

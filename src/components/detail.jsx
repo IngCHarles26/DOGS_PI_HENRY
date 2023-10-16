@@ -1,20 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import imagePrueba from './assets/error.png'
+import defaultImage from './assets/default.jpg'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 const URL = 'http://localhost:3001/pi_dogs/dogs/'
-const initial = {
-  id:'ID',
-  name:'name',
-  height:'height',
-  weight:'weight',
-  image:'image',
-  yearsLife:'yearsLife',
-  id:'ID',
-}
+
 function Detail(props) {
-  const [idData, setIdData] = useState({});
+  const allTemp = useSelector(st=>st.allTemp);
+  const [idData, setIdData] = useState(null);
   const {id} = useParams();
 
   const navigate = useNavigate();
@@ -23,21 +16,26 @@ function Detail(props) {
     navigate('/home')
   }
 
-  useSelector(()=>{
+  
+  useEffect(()=>{
     axios.get(URL+id)
-      .then(({data})=>setIdData(data))
+      .then(({data})=>{setIdData(data)})
       .catch(err=>console.log(err.message))
   },[])
 
+  if(!idData){
+    return <p>Cargando....</p>
+  }
+
   return ( 
     <div className='detailComponent'>
-      <img className='detailImage' src={idData.image} alt="detailImage" />
+      <img className='detailImage' src={idData.image !== 'default' ? idData.image : defaultImage} alt="cardImage" onError={(e)=>{e.target.src=defaultImage}} />
       <div className='detailInfoCont'>
         <h1 className='detailInfo'>{idData.name}</h1>
         <h2 className='detailInfo'>{idData.id}</h2>
         <h2 className='detailInfo'>{idData.height}</h2>
         <h2 className='detailInfo'>{idData.weight}</h2>
-        <h2 className='detailInfo'>{idData.temperament}</h2>
+        <h2 className='detailInfo'>{idData.temperament.map(el=>allTemp[el]).join('-')}</h2>
         <h2 className='detailInfo'>{idData.yearsLife}</h2>
         <div className='detailButtonCont'>
           <button className='homeButton detailButton' onClick={navTohomm}>home</button>
