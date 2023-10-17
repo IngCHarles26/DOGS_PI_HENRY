@@ -12,10 +12,13 @@ function Detail(props) {
 
   const navigate = useNavigate();
 
-  const navTohomm = ()=>{
+  const navTohom = ()=>{
     navigate('/home')
   }
 
+  const navToCreate = ()=>{
+    navigate('/form')
+  }
   
   useEffect(()=>{
     axios.get(URL+id)
@@ -32,13 +35,14 @@ function Detail(props) {
       <img className='detailImage' src={idData.image !== 'default' ? idData.image : defaultImage} alt="cardImage" onError={(e)=>{e.target.src=defaultImage}} />
       <div className='detailInfoCont'>
         <h1 className='detailInfo'>{idData.name}</h1>
-        <h2 className='detailInfo'>{idData.id}</h2>
-        <h2 className='detailInfo'>{idData.height}</h2>
-        <h2 className='detailInfo'>{idData.weight}</h2>
-        <h2 className='detailInfo'>{idData.temperament.map(el=>allTemp[el]).join('-')}</h2>
-        <h2 className='detailInfo'>{idData.yearsLife}</h2>
+        <h2 className='detailInfo'>ID: {idData.id}</h2>
+        <h2 className='detailInfo'>Height: {idData.height} cm</h2>
+        <h2 className='detailInfo'>Weight: {idData.weight} kg</h2>
+        <h2 className='detailInfo'>Temperaments: {idData.temperament.map(el=>allTemp[el]).join('-')}</h2>
+        <h2 className='detailInfo'>Life Span:{idData.yearsLife}</h2>
         <div className='detailButtonCont'>
-          <button className='homeButton detailButton' onClick={navTohomm}>home</button>
+          <button className='homeButton detailButton' onClick={navTohom}>home</button>
+          <button className='homeButton detailButton' onClick={navToCreate}>Create</button>
         </div>
       </div>
     </div>
