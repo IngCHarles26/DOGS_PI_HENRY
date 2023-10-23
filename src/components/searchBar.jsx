@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { prevPage,nextPage, changeCheckApi, changeCheckDb, filtBreed, orderByBreed, orderByWeight } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBar(props){
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ export default function SearchBar(props){
   const breed = useSelector(st=>st.filtBreed)
   const orderBreed = useSelector(st=>st.orderBreed)
   const orderWeight = useSelector(st=>st.orderWeight)
+  const navigate = useNavigate();
 
   const nextLocalPage = ()=>{dispatch(nextPage())};
   const prevLocalPage = ()=>{dispatch(prevPage())};
@@ -30,20 +32,18 @@ export default function SearchBar(props){
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M17 6h-6a1 1 0 0 0 -.78 .375l-4 5a1 1 0 0 0 0 1.25l4 5a1 1 0 0 0 .78 .375h6l.112 -.006a1 1 0 0 0 .669 -1.619l-3.501 -4.375l3.5 -4.375a1 1 0 0 0 -.78 -1.625z" strokeWidth="0" fill="currentColor" />
       </svg>
-
+      <button className="searchCreate" onClick={()=>navigate('/form')}>
+        CREATE
+      </button>
       <input value={breed} onChange={handleBreed}
           className="searchInputName" type="text" placeholder='🔍 Breed' />
 
       <div>
-        <input onChange={handleCheckBoxApi} checked={filtApi} 
-            type="checkbox" /> <label htmlFor="">API </label>
+        <input  onChange={handleCheckBoxApi} checked={filtApi} 
+            type="checkbox" /> <label className="searchApiCheck" htmlFor="">API </label>
 
-        <input onChange={handleCheckBoxDB}  checked={filtDb} 
-            type="checkbox"/> <label htmlFor="">DATA BASE</label>
-      </div>
-
-      <div>
-        <span>{maxPage ? `Pág: ${currentPage}/${maxPage}` : 'Sin Coincidencias'}</span>
+        <input  onChange={handleCheckBoxDB}  checked={filtDb} 
+            type="checkbox"/> <label className="searchDbCheck" htmlFor="">DATA BASE</label>
       </div>
 
       <div>
@@ -62,6 +62,10 @@ export default function SearchBar(props){
           <option value='+'>Increase</option>
           <option value='-'>Decrease</option>
         </select>
+      </div>
+
+      <div>
+        <span>{maxPage ? `Pág: ${currentPage}/${maxPage}` : 'Sin Coincidencias'}</span>
       </div>
 
       <svg onClick={nextLocalPage} 

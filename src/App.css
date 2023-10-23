@@ -1,5 +1,14 @@
+:root {
+  --main: #972dfd;
+  --darkmain: #22c1c3;
+  --second: #ffce00;
+  --darksecond: rgb(233, 187, 2);
+  --api:#B06C27;
+  --db:#6FB027;
+  --fuentePrincipal: 'Staatliches', cursive;
+}
 * {
-  font-family: Ubuntu, sans-serif;
+  font-family: var(--fuentePrincipal), sans-serif;
 }
 
 *,*::before,*::after{
@@ -22,8 +31,7 @@ html {
   height: 100%;
   min-height: 100vh;
   text-align: center;
-  background-color: #00000040;
-  align-items: center;
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(151,45,253,1) 100%);
   position: relative;
 }
 /* _______________GLOBAL */
@@ -35,10 +43,54 @@ html {
   font-variant: small-caps;
 }
 
+/* _______________LANDING */
+.landingComponent{
+  width: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
+  margin-top: 0;
+}
+.landingImage{
+  width: 50%;
+  max-width: 40rem;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.landingInfo{
+  width: 60%;
+  max-width: 50rem;
+  background-color: var(--second);
+  padding-bottom: 2rem;
+  border-radius: 1rem;
+}
+.landingButton{
+  color: var(--darkmain);
+  border: 0;
+  padding: 0;
+  width: 12rem;
+  height: 4rem;
+  border-radius: 1rem;
+  font-size: 2rem;
+}
+.landingButton:hover{
+  background-color: var(--main);
+  color: white;
+  cursor: pointer;
+}
+
 
 /* _______________DETAIL */
+.detailMax{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .detailComponent{
-  background-color: blue;
   border-radius: 2rem;
   margin: auto;
   padding: 2rem;
@@ -49,14 +101,11 @@ html {
   justify-content: space-around;
   gap: 2rem;
 }
-
 .detailImage{
-  background-color: blueviolet;
   height: auto;
   object-fit: contain;
-  
+  border-radius: 2rem;
 }
-
 .detailInfoCont{
   padding-top: 2rem;
   width: 40%;
@@ -65,24 +114,35 @@ html {
   justify-content: space-between;
   align-items: center;
 } 
-
 .detailInfo{
-  background-color: tan;
   width: 90%;
   margin: 0;
   padding: 0;
   text-align: left;
 }
-
+.detailInfo span{
+  color: white;
+}
 .detailButtonCont{
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
-
-/* _______________DETAIL */
+.homeButton{
+  font-size: 3rem;
+  height: auto;
+}
+.homeButton:hover{
+  cursor: pointer;
+}
+/* _______________ERROR */
+.errorMax{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .errorComponent{
-  background-color: gold;
   height: 70%;
   width: 60%;
 }
@@ -129,10 +189,10 @@ html {
   object-position: center center;
 }
 .API{
-  background-color: aquamarine;
+  background-color: var(--api);
 }
 .DB{
-  background-color: aqua;
+  background-color: var(--db);
 }
 .cardName{
   text-decoration: none ;
@@ -159,7 +219,7 @@ html {
 .searchCont{
   position: sticky;
   top: 0;
-  background-color: greenyellow;
+  background: linear-gradient(90deg, rgba(162,203,129,1) 0%, rgba(39,142,176,1) 52%, rgba(0,140,255,1) 100%);
   width: 100%;
   height: 4rem;
   margin:0;
@@ -167,30 +227,107 @@ html {
   justify-content: space-between;
   align-items: center;
 }
+.searchCreate{
+  width: 4rem;
+  height: 2rem;
+}
+.searchCreate:hover{
+  cursor: pointer;
+}
 .searchCont svg{
   cursor: pointer;
 }
 .searchInputName{
   width: 20rem;
 }
-
-
+.searchApiCheck{
+  color: var(--api);
+}
+.searchDbCheck{
+  color: var(--db);
+}
 
 /* _______________FORM */
+.formMax{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .formComponent{
-  height: 70rem;
+  background-color: white;
+  width: 40%;
+  max-width: 60rem;
+  padding: 1rem;
+  border-radius: 1rem;
   margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 }
+.formComponent h1{
+  font-size: 5rem;
+  background: linear-gradient(90deg, rgba(153,203,129,1) 0%, rgba(0,159,255,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .formTitle{
   padding: 0;
   margin: 0;
 }
+.borderRed{
+  color: red;
+}
+.formInput{
+  width: 50%;
+  height: 3rem;
+  margin: 1rem;
+  border-width: 0 0 0.1rem 0;
+}
+.formListTemps{
+  width:60%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 1rem;
+}
+.formListTemps button{
+  background-color: var(--darkmain);
+  border: none;
+}
+.formListTemps button:hover{
+  cursor: pointer;
+}
+.formListChoices{
+  margin: 1rem;
+  line-height: 3rem;
+}
+.formListChoices span{
+  background-color: var(--second);
+  padding: 0.2rem 0.5rem;
+  /* color: var(--main); */
+  margin-right: 0.5rem;
+}
+.formSubmitButton{
+  border: none;
+  border-radius: .5rem;
+  width: 12rem;
+  height: 4rem;
+  font-size: 3rem;
+  background-color: #9D27B0;
+  color: white;
+}
+.formSubmitButton:hover{
+  cursor: pointer;
+  background-color: var(--second);
+  color: black;
+}
 
 @media (max-width: 768px){
+  /* _______________LANDING */
+
+  
   /* _______________DETAIL */
   .detailComponent{
     background-color: red;

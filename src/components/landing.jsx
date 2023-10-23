@@ -18,10 +18,13 @@ function Landing(props) {
   }
   
   return ( 
-    <div>
-      <img src={image} alt="apruebeme" />
-      <p>Que no se de cuenta</p>
-      <button onClick={goIn}>Ingresar</button>
+    <div className='landingComponent'>
+      <img className='landingImage' src={image} alt="apruebeme" />
+      <div className='landingInfo'>
+        <h1 className='landingTitle'>PROYECTO INDIVIDUAL</h1>
+        <h2 className='landingDevName'>CarlosCo_Dev</h2>
+        <button className='landingButton' onClick={goIn}>Ingresar</button>
+      </div>
     </div>
   );
 }
