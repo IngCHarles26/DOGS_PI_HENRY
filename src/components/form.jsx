@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const valName =  /^[a-zA-Z\s]+$/;
 const minMax = /\s+/g;
-const URL = 'http://localhost:3001/pi_dogs/dogs'
+const onlyNumbers = /[^0-9-]/g;
+const URL = 'http://localhost:3001/pi_dogs/dogs';
+const maxWeight = 157;
+const minWeight = 0.55;
+const minHeight = 3.5;
+const maxHeight = 200;
 
 const initialForm = {
   origin:'DB',
@@ -29,14 +34,17 @@ function Form() {
   const tempToId = allTemp.reduce((ac,el,ix)=>{return {...ac,[el]:ix}},{});
   const [temp, setTemp] = useState('');
   const [formData, setFormData] = useState(initialForm);
+  const [selectedTemps, setSelectedTemps] = useState([]);
   const [validateForm, setValidateForm] = useState(initialValidateForm);
 
   const navigate = useNavigate();
 
   const addTemp = (e)=>{
     e.preventDefault();
-    if(!formData.temperament.includes(e.target.value)) 
-    setFormData({...formData,temperament:[...formData.temperament,e.target.value]});
+    const {value} = e.target
+    if(!formData.temperament.includes(value)) 
+    setSelectedTemps([...selectedTemps,value])
+    setFormData({...formData,temperament:[...formData.temperament,tempToId[value]]});
   }
 
   const handleTemp = (e)=>{
@@ -47,16 +55,19 @@ function Form() {
   const handleInput = (e)=>{
     let {name,value} = e.target;
     let val,aux;
-    value = value.replaceAll(minMax,'');
     if(name === 'name'){
+      value = value.replaceAll(minMax,' ');
       val = !allNameDogs.includes(value.toLowerCase()) && Boolean(value);
       setValidateForm({...validateForm,name:val})
     }else {
-      aux = value.split('-');
-      val = aux.length<=2 && Boolean(value) && aux.every(el=>typeof +el === 'number' && el !== '');
+      value = value.replaceAll(minMax,'').replaceAll(onlyNumbers,'');
+      aux = value.split('-').sort((a,b)=> +a - +b);
+      val = aux.length<=2 && Boolean(value) && 
+            aux.every(el=>typeof +el === 'number' && el !== '') &&
+            (name == 'height');
       setValidateForm({...validateForm,[name]:val})
     }
-    console.log(validateForm);
+    // console.log(formData);
     setFormData({
       ...formData,
       [name]:value,
@@ -65,14 +76,11 @@ function Form() {
   
   const handleSubmit = (e)=>{
     e.preventDefault();
+    console.log(validateForm)
     if(Object.values(validateForm).every(el=>el)){
-      let {temperament} = formData;
-      setFormData({...formData,
-        temperament: !temperament.length || temperament.every(el=>el) 
-            ? temperament.map(el=>tempToId[el]) 
-            : [1]})
+      console.log(formData)
       axios.post(URL,formData)
-        .then(res=>{window.alert('guardado con éxito');setFormData();navigate('/home')})
+        .then(res=>{window.alert('guardado con éxito');setFormData(initialForm);navigate('/')})
         .catch(err=>console.log(err.message))
     }else{
       window.alert('Valores no permitidos')
@@ -96,7 +104,7 @@ function Form() {
                 <button value={el} onClick={addTemp} key={`temp_form_${ix}`}>{el}</button>)}
         </div>
         <div className="formListChoices">
-          {formData.temperament.map((el,ix)=><span key={`tem_to_db_${ix}`}>{el} </span>)}
+          {selectedTemps.map((el,ix)=><span key={`tem_to_db_${ix}`}>{el} </span>)}
         </div>
         <button className="formSubmitButton" type="submit">Save</button>
       </form>

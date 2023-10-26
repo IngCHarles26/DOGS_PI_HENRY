@@ -1,26 +1,29 @@
 import { useDispatch, useSelector } from 'react-redux';
 import defaultImage from './assets/default.jpg'
-import { useEffect, useState } from 'react';
-import NavigationBar from './navigationBar';
+import { useEffect } from 'react';
 import Card from './card';
 import SearchBar from './searchBar';
 import axios from 'axios';
-import { allDogs, maxPage } from '../redux/actions';
+import { allDogs, maxPage,allTemp } from '../redux/actions';
 
-const numCards = 8;
 
 export default function Home(props) {
   const allLocalDogs = useSelector(el=>el.allDogs);
-  const allTemp = useSelector(el=>el.allTemp);
   const cardsPerPage = useSelector(el=>el.cardsPerPage);
   const filtApi = useSelector(st=>st.filtApi);
   const filtDb = useSelector(st=>st.filtDb);
+  const filtTemp = useSelector(st=>st.filtTemp);
   const breed = useSelector(st=>st.filtBreed);
   const orderBreed = useSelector(st=>st.orderBreed);
   const orderWeight = useSelector(st=>st.orderWeight);
   const currentPage = useSelector(st=>st.currentPage);
 
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    axios.get('http://localhost:3001/pi_dogs/temperaments')
+      .then(({data})=>{dispatch(allTemp(data))})
+  },[])
 
   useEffect(()=>{
     const time = setTimeout(()=>{
@@ -35,6 +38,9 @@ export default function Home(props) {
     let dogs = [...allLocalDogs].filter(({origin})=> 
           (filtApi && origin === 'API') || 
           (filtDb && origin === 'DB'));
+      if(filtTemp !== -1){
+        dogs = [...dogs].filter(el=>el.temperament.includes(filtTemp))
+      }
       if(orderBreed){
         dogs = [...dogs].sort((a,b)=>orderBreed === '+' 
           ? a.name.localeCompare(b.name) 
@@ -59,7 +65,6 @@ export default function Home(props) {
       {filtDogs()
         .map(el=>
           <Card
-            allTemp={allTemp}
             key={'card_'+el.id}
             defaultImage={defaultImage}
             name={el.name}

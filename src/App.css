@@ -238,7 +238,7 @@ html {
   cursor: pointer;
 }
 .searchInputName{
-  width: 20rem;
+  width: 12rem;
 }
 .searchApiCheck{
   color: var(--api);

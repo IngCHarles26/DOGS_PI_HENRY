@@ -7,6 +7,9 @@
 //Filtrar todos los perros por nombre de raza
   export const FILT_BREED = 'FILT_BREED';
   export const filtBreed = (data)=>{return{type:FILT_BREED,payload:data}};
+//Filtrar todos los perros por nombre de raza
+  export const FILT_TEMP = 'FILT_TEMP';
+  export const filtTemp = (data)=>{return{type:FILT_TEMP,payload:data}};
 //Filtrar todos los perros de origen API
   export const FILT_API = 'FILT_API'
   export const filtApi = (data)=>{return{type:FILT_API,payload:data}};
@@ -37,9 +40,9 @@
 //Setear la máxima página
   export const MAX_PAGE = 'MAX_PAGE';
   export const maxPage = (data)=>{return{type:MAX_PAGE,payload:data}}
-//Seteear
-  // export const FILTERED_DOGS = 'FILTERED_DOGS';
-  // export const filteredDogs = (data)=>{return{type:FILTERED_DOGS,payload:data}};
+//Añadir un dog
+  export const ADD_DOG = 'ADD_DOG';
+  export const addDog = (data)=>{return{type:ADD_DOG,payload:data}}
 
 //Setear las páginas máximas
   // export const MAX_PAGES = 'MAX_PAGES';

@@ -1,4 +1,4 @@
-import { ALL_DOGS, ALL_TEMP, FILT_BREED, ORDER_BREED, ORDER_WEIGHT, NEXT_PAGE, PREV_PAGE,  CHANGE_CHK_API, CHANGE_CHK_DB,MAX_PAGE} from "./actions";
+import { ALL_DOGS, ALL_TEMP, FILT_BREED, ORDER_BREED, ORDER_WEIGHT, NEXT_PAGE, PREV_PAGE,  CHANGE_CHK_API, CHANGE_CHK_DB,MAX_PAGE,FILT_TEMP} from "./actions";
 
 let initialState = {
   allDogs : [],
@@ -6,6 +6,7 @@ let initialState = {
   filtBreed : '',
   filtApi : true,
   filtDb : true,
+  filtTemp : -1,
   orderBreed : '',
   orderWeight : '',
   filteredDogsApi : [],
@@ -49,6 +50,10 @@ export default function rootReducer (state = initialState,{type,payload}){
 
     case FILT_BREED:
         state.filtBreed = String(payload);
+      return {...state}; 
+      
+    case FILT_TEMP:
+        state.filtTemp = Number(payload);
       return {...state};    
 
     case ORDER_BREED:

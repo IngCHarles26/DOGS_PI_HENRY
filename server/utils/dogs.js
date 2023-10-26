@@ -1,5 +1,5 @@
 const generateID = () => Math.floor(Math.random()*(999999-100000)+100000)*1000;
-const dogss = [
+let dogss = [
   {
     id:generateID()+505,
     image:'D:/DESARROLLO WEB/HENRY/DOGS_PROJECT/photos/pe5.jpg',
@@ -894,6 +894,8 @@ const dogss = [
     temperament: [ 1 ]
   }
 ];
+
+dogss = dogss.slice(0,5)
 
 const relations = dogss.map(el=>el.temperament.map(el1=>{return {DogId: el.id, TemperamentId:el1}})).flat()
 

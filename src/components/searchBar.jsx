@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { prevPage,nextPage, changeCheckApi, changeCheckDb, filtBreed, orderByBreed, orderByWeight } from "../redux/actions";
+import { prevPage,nextPage, changeCheckApi, changeCheckDb, filtBreed, orderByBreed, orderByWeight, filtTemp } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function SearchBar(props){
   const dispatch = useDispatch();
+  const allTemp = useSelector(st=>st.allTemp)
   const currentPage = useSelector(st=>st.currentPage)
   const maxPage = useSelector(st=>st.maxPage)
   const filtApi = useSelector(st=>st.filtApi)
@@ -11,6 +13,7 @@ export default function SearchBar(props){
   const breed = useSelector(st=>st.filtBreed)
   const orderBreed = useSelector(st=>st.orderBreed)
   const orderWeight = useSelector(st=>st.orderWeight)
+  const filtTempp = useSelector(st=>st.filtTemp)
   const navigate = useNavigate();
 
   const nextLocalPage = ()=>{dispatch(nextPage())};
@@ -24,6 +27,8 @@ export default function SearchBar(props){
 
   const handleBreed = (e)=>{dispatch(filtBreed(e.target.value))};
 
+  const handleTemp = (e)=>{dispatch(filtTemp(e.target.value))}
+
   return(
     <div className="searchCont">
       
@@ -35,8 +40,15 @@ export default function SearchBar(props){
       <button className="searchCreate" onClick={()=>navigate('/form')}>
         CREATE
       </button>
-      <input value={breed} onChange={handleBreed}
+
+      <input  value={breed} onChange={handleBreed}
           className="searchInputName" type="text" placeholder='🔍 Breed' />
+
+      <select className="searchInputName" onChange={handleTemp} value={filtTempp}>
+        <option value="-1" disabled>🔍 Temperament</option>
+        <option value="-1" >All Temperament</option>
+        {allTemp.slice(1).map((el,ix)=><option key={`key_temp_filt${ix}`} value={ix}>{el}</option>)}
+      </select>
 
       <div>
         <input  onChange={handleCheckBoxApi} checked={filtApi} 
