@@ -258,6 +258,7 @@ html {
   background-color: white;
   width: 40%;
   max-width: 60rem;
+  min-width: 40rem;
   padding: 1rem;
   border-radius: 1rem;
   margin: auto;
@@ -284,9 +285,17 @@ html {
   height: 3rem;
   margin: 1rem;
   border-width: 0 0 0.1rem 0;
+  background-color: white;
+}
+.badInput{
+  width: 50%;
+  height: 3rem;
+  margin: 1rem;
+  border-width: 0 0 0.1rem 0;
+  background-color: #ff000030;
 }
 .formListTemps{
-  width:60%;
+  width:80%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.5rem;
@@ -300,14 +309,20 @@ html {
   cursor: pointer;
 }
 .formListChoices{
+  width: 100%;
   margin: 1rem;
   line-height: 3rem;
 }
+.formListChoicesTitle{
+  margin: 0;
+  padding: 0;
+}
 .formListChoices span{
   background-color: var(--second);
-  padding: 0.2rem 0.5rem;
-  /* color: var(--main); */
+  padding: 0 0.5rem;
   margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
 }
 .formSubmitButton{
   border: none;
